@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000
 const app = express()
 
 
-app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs' }))
+app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs', helpers: require('./helper/handlebars-helpers') }))
 app.set('view engine', 'hbs')
 
 app.use(routes)

@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "dayjs": "^1.11.13",
     "express": "^4.21.0",
     "express-handlebars": "^8.0.1",
     "mongoose": "^8.7.0"

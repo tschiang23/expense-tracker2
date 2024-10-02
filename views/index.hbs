@@ -1,1 +1,34 @@
-<h1>Hello</h1>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <div>
+        <h3 class="d-inline">支出總金額: $</h3>
+        <h1 class="d-inline text-danger">{{totalAmount}}</h1>
+      </div>
+      <ul class="list-group">
+        {{#each records}}
+        <li class="list-group-item list-group-item-secondary">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <div class="row align-items-center">
+                <div class="col-2">
+                  <img src="https://picsum.photos/50/50?random=10">
+                </div>
+                <div class="col-6">
+                  <div>{{this.name}}</div>
+                  <div>{{#dateFormat this.date}}{{/dateFormat}}</div>
+                </div>
+                <div class="col-4 text-end">{{this.amount}}</div>
+              </div>
+            </div>
+            <div class="col-4 text-end">
+              <a class="btn btn-info" href="#" role="button">修改</a>
+              <a class="btn btn-danger" href="#" role="button">刪除</a>
+            </div>
+          </div>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</div>
