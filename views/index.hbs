@@ -5,7 +5,10 @@
         <h3 class="d-inline">支出總金額: $</h3>
         <h1 class="d-inline text-danger">{{totalAmount}}</h1>
       </div>
-      <ul class="list-group">
+      <div>
+        <a class="btn btn-success" href="/expenses/new" role="button">新增支出</a>
+      </div>
+      <ul class="list-group mt-3">
         {{#each records}}
         <li class="list-group-item list-group-item-success">
           <div class="row align-items-center">

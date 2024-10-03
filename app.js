@@ -11,6 +11,8 @@ const app = express()
 app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs', helpers: require('./helper/handlebars-helpers') }))
 app.set('view engine', 'hbs')
 
+//middleware
+app.use(express.urlencoded({ extended: true }))
 app.use(routes)
 
 app.listen(PORT, () => console.log(`App is running on ${PORT}`))
