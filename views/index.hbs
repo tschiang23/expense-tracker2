@@ -1,24 +1,24 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
-    <div class="col-6">
+    <div class="col-5">
       <div>
         <h3 class="d-inline">支出總金額: $</h3>
         <h1 class="d-inline text-danger">{{totalAmount}}</h1>
       </div>
       <ul class="list-group">
         {{#each records}}
-        <li class="list-group-item list-group-item-secondary">
+        <li class="list-group-item list-group-item-success">
           <div class="row align-items-center">
             <div class="col-8">
-              <div class="row align-items-center">
+              <div class="row align-items-center g-0">
                 <div class="col-2">
-                  <img src="https://picsum.photos/50/50?random=10">
+                  <i class="{{this.categoryInfo.icon}}"></i>
                 </div>
-                <div class="col-6">
+                <div class="col-5">
                   <div>{{this.name}}</div>
                   <div>{{#dateFormat this.date}}{{/dateFormat}}</div>
                 </div>
-                <div class="col-4 text-end">{{this.amount}}</div>
+                <div class="col-5 text-end">{{this.amount}}</div>
               </div>
             </div>
             <div class="col-4 text-end">

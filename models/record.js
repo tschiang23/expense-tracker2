@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const category = require('./category')
 const Schema = mongoose.Schema
 const recordSchema = new Schema({
   name: {
@@ -12,6 +13,12 @@ const recordSchema = new Schema({
   amount: {
     type: Number,
     require: true
+  },
+  categoryId: { //關聯categoryId
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
+    index: true,
+    required: true
   }
 })
 
