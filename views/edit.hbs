@@ -1,0 +1,36 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-6">
+      <h2 class="mb-4">編輯支出表單</h2>
+      <form action="/expenses/{{record._id}}_method=PUT" method="POST">
+        <!-- 日期 -->
+        <div class="mb-3">
+          <label for="date" class="form-label">日期</label>
+          <input type="date" name="date" value="{{#dateFormat record.date}}{{/dateFormat}}" class="form-control"
+            id="date" required>
+        </div>
+        <!-- 支出名稱 -->
+        <div class="mb-3">
+          <label for="expenseName" class="form-label">支出名稱</label>
+          <input type="text" class="form-control" id="expenseName" name="name" value="{{record.name}}"
+            placeholder="輸入支出名稱" required>
+        </div>
+        <!-- 支出類型 -->
+        <select class="form-select" name="categoryId" aria-label="Default select example">
+          {{#each categories}}
+          <option value="{{this._id}}" {{#ifCond this._id ../record.categoryId}} selected {{/ifCond}}>{{this.name}}
+          </option>
+          {{/each}}
+        </select>
+        <!-- 金額 -->
+        <div class="mb-3">
+          <label for="amount" class="form-label">金額</label>
+          <input type="number" class="form-control" id="amount" name='amount' value={{record.amount}} placeholder="輸入金額"
+            min="0" required>
+        </div>
+        <!-- 提交按鈕 -->
+        <button type="submit" class="btn btn-primary">提交</button>
+      </form>
+    </div>
+  </div>
+</div>

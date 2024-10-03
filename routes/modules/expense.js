@@ -22,4 +22,24 @@ router.post('/', async (req, res) => {
   }
 })
 
+//取得修改一筆支出表單
+router.get('/:id/edit', async (req, res) => {
+  try {
+    const { id } = req.params
+    const [record, categories] = await Promise.all([
+      Record.findOne({ _id: id }).lean().exec(),
+
+      Category.find().lean().exec()
+    ])
+    res.render('edit', { record, categories })
+  } catch (error) {
+    console.log('Error:', error)
+  }
+})
+
+// 修改一筆支出
+router.put('/:id', (req, res) => {
+  res.send('done')
+})
+
 module.exports = router
