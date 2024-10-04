@@ -26,7 +26,9 @@
             </div>
             <div class="col-4 text-end">
               <a class="btn btn-info" href="/expenses/{{this._id}}/edit" role="button">修改</a>
-              <a class="btn btn-danger" href="#" role="button">刪除</a>
+              <form action="./expenses/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;">
+                <button class="btn btn-danger" type="submit">刪除</button>
+              </form>
             </div>
           </div>
         </li>

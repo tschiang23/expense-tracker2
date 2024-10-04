@@ -49,5 +49,15 @@ router.put('/:id', async (req, res) => {
     console.log('Error:', error)
   }
 })
+// 刪除一筆支出
+router.delete('/:id', async (req, res) => {
+  try {
+    const id = req.params.id
+    await Record.deleteOne({ _id: id })
+    res.redirect('/')
+  } catch (error) {
+    console.log('Error', error)
+  }
 
+})
 module.exports = router
