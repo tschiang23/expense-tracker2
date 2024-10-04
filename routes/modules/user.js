@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const User = require('../../models/user')
 const passport = require('passport')
+const bcrypt = require('bcrypt')
 
 router.get('/login', (req, res) => {
   return res.render('login')
@@ -24,20 +25,19 @@ router.get('/register', (req, res) => {
 
 router.post('/register', async (req, res) => {
   try {
-    const userData = req.body
-    const foundUser = await User.findOne({ email: userData.email }).lean().exec()
+    const { name, email, password, confirmPassword } = req.body
+    const foundUser = await User.findOne({ email }).lean().exec()
 
     if (foundUser) {
       console.log('User already exists ')
-      return res.render('register', { userData })
+      return res.render('register', { name, email, password, confirmPassword })
     }
 
-    if (userData.password !== userData.confirmPassword) {
-      return res.render('register', { userData })
+    if (password !== confirmPassword) {
+      return res.render('register', { name, email, password, confirmPassword })
     }
-
-    delete userData.confirmPassword
-    await User.create({ ...userData })
+    const hash = await bcrypt.hash(password, 10)
+    await User.create({ name, email, password: hash })
     res.redirect('/users/login')
   } catch (error) {
     console.log('Error:', error)
