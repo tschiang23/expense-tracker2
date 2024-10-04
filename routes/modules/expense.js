@@ -38,8 +38,16 @@ router.get('/:id/edit', async (req, res) => {
 })
 
 // 修改一筆支出
-router.put('/:id', (req, res) => {
-  res.send('done')
+router.put('/:id', async (req, res) => {
+  try {
+    const id = req.params.id
+
+    await Record.findByIdAndUpdate(id, { ...req.body })
+
+    res.redirect('/')
+  } catch (error) {
+    console.log('Error:', error)
+  }
 })
 
 module.exports = router
