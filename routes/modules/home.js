@@ -6,17 +6,25 @@ const Category = require('../../models/category')
 // let totalAmount = 0
 router.get('/', async (req, res) => {
   try {
+    const userId = req.user._id
     const [recordsTotal, records] = await Promise.all([
       // 計算支出總金額
-      Record.aggregate([{
-        $group: {
-          _id: null,
-          total: { $sum: "$amount" }
-        }
-      },
+      Record.aggregate([
+        {
+          $match: { userId }
+        },
+        {
+          $group: {
+            _id: null,
+            total: { $sum: "$amount" }
+          }
+        },
       ]).exec(),
 
       Record.aggregate([
+        {
+          $match: { userId }
+        },
         {
           $lookup: {
             from: 'categories',           // 關聯的集合（即對應的表）
@@ -30,8 +38,7 @@ router.get('/', async (req, res) => {
         }
       ]).exec(),
     ])
-
-    const totalAmount = recordsTotal[0].total
+    const totalAmount = recordsTotal.length ? recordsTotal[0].total : 0
     res.render('index', { records, totalAmount })
   } catch (error) {
     console.error('Error:', error)
