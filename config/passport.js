@@ -1,5 +1,6 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
+const GoogleStrategy = require('passport-google-oauth20').Strategy
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
 
@@ -28,6 +29,35 @@ module.exports = app => {
       done(err, false)
     }
   }))
+
+  //google 
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_CLIENT_Id,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: process.env.GOOGLE_CALLBACK,
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          const { name, email } = profile._json
+
+          const foundUser = await User.findOne({ email })
+          if (foundUser) return done(null, foundUser)
+
+          const randomPassword = Math.random().toString(36).slice(-8)
+
+          const hash = await bcrypt.hash(randomPassword, 10)
+
+          const createdUser = await User.create({ name, email, password: hash })
+          return done(null, createdUser)
+        } catch (err) {
+          return done(err, false)
+        }
+
+      }
+    )
+  )
 
   // 設定序列化與反序列
   passport.serializeUser((user, done) => {
