@@ -8,6 +8,30 @@
       <div>
         <a class="btn btn-success" href="/expenses/new" role="button">新增支出</a>
       </div>
+      {{!-- --}}
+      <div class="row">
+        <div class="col-4">
+          <form action="/search" class="mt-2">
+            <!-- 支出類型 -->
+            <select class="form-select" name="categoryId" aria-label="Default select example"
+              onchange="this.form.submit()">
+              <option value="">全部類型</option>
+              {{#if categoryId}}
+              {{#each categories}}
+              <option value="{{this._id}}" {{#ifCond this._id ../categoryId}} selected {{/ifCond}}>{{this.name}}
+              </option>
+              {{/each}}
+              {{else}}
+              {{#each categories}}
+              <option value="{{this._id}}">{{this.name}}
+              </option>
+              {{/each}}
+              {{/if}}
+            </select>
+          </form>
+        </div>
+      </div>
+      {{!-- --}}
       <ul class="list-group mt-3">
         {{#each records}}
         <li class="list-group-item list-group-item-success">

@@ -2,16 +2,26 @@ const express = require('express')
 const router = express.Router()
 const Record = require('../../models/record')
 const Category = require('../../models/category')
+const mongoose = require('mongoose')
 
-// let totalAmount = 0
+
 router.get('/', async (req, res) => {
   try {
+    if (!req.query.categoryId) {
+      return res.redirect('/')
+    }
+    const categoryId = new mongoose.Types.ObjectId(`${req.query.categoryId}`)
     const userId = req.user._id
+
+
     const [recordsTotal, records, categories] = await Promise.all([
       // 計算支出總金額
       Record.aggregate([
         {
-          $match: { userId }
+          $match: {
+            userId,
+            categoryId
+          }
         },
         {
           $group: {
@@ -23,7 +33,10 @@ router.get('/', async (req, res) => {
 
       Record.aggregate([
         {
-          $match: { userId }
+          $match: {
+            userId,
+            categoryId
+          }
         },
         {
           $lookup: {
@@ -42,11 +55,11 @@ router.get('/', async (req, res) => {
     ])
 
     const totalAmount = recordsTotal.length ? recordsTotal[0].total : 0
-    res.render('index', { records, totalAmount, categories })
-  } catch (error) {
-    console.error('Error:', error)
-  }
+    res.render('index', { records, totalAmount, categories, categoryId })
 
+  } catch (err) {
+    console.log('error', err)
+  }
 })
 
 module.exports = router
