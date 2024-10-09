@@ -4,24 +4,50 @@ const Record = require('../../models/record')
 const Category = require('../../models/category')
 const mongoose = require('mongoose')
 
-
 router.get('/', async (req, res) => {
   try {
-    if (!req.query.categoryId) {
-      return res.redirect('/')
-    }
-    const categoryId = new mongoose.Types.ObjectId(`${req.query.categoryId}`)
+    let { month, categoryId } = req.query
+    let categoryObj = {}
+    let monthObj = {}
     const userId = req.user._id
 
+    //如果月分與類別ID不存在 導回首頁
+    if (!month && !categoryId) {
+      return res.redirect('/')
+    }
+    //類別ID存在 轉換categoryId 為ObjectID
+    if (categoryId) {
+      categoryId = new mongoose.Types.ObjectId(`${categoryId}`)
+      categoryObj.categoryId = categoryId
+    }
+
+    //如果月份存在 動態建構 $match
+    if (month) {
+      month = Number(month)
+      monthObj.$expr = { $eq: [{ $month: "$date" }, month] };
+    }
 
     const [recordsTotal, records, categories] = await Promise.all([
       // 計算支出總金額
       Record.aggregate([
         {
           $match: {
-            userId,
-            categoryId
+            $and: [
+              { userId },
+              { ...categoryObj },
+              // {
+              //   $expr: {
+              //     $and: [
+              //       { $eq: [{ $year: "$date" }, 2024] },  // 查詢年份為 2024
+              //       { $eq: [{ $month: "$date" }, month] }   // 查詢月份為 10 月
+              //     ]
+              //   }
+              // }
+            ]
           }
+        },
+        {
+          $match: monthObj
         },
         {
           $group: {
@@ -33,10 +59,13 @@ router.get('/', async (req, res) => {
 
       Record.aggregate([
         {
-          $match: {
-            userId,
-            categoryId
-          }
+          $match: { userId }
+        },
+        {
+          $match: { ...categoryObj }
+        },
+        {
+          $match: monthObj
         },
         {
           $lookup: {
@@ -55,7 +84,7 @@ router.get('/', async (req, res) => {
     ])
 
     const totalAmount = recordsTotal.length ? recordsTotal[0].total : 0
-    res.render('index', { records, totalAmount, categories, categoryId })
+    res.render('index', { records, totalAmount, categories, categoryId, month })
 
   } catch (err) {
     console.log('error', err)

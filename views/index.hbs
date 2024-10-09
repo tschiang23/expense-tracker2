@@ -9,27 +9,62 @@
         <a class="btn btn-success" href="/expenses/new" role="button">新增支出</a>
       </div>
       {{!-- --}}
-      <div class="row">
-        <div class="col-4">
-          <form action="/search" class="mt-2">
-            <!-- 支出類型 -->
-            <select class="form-select" name="categoryId" aria-label="Default select example"
-              onchange="this.form.submit()">
-              <option value="">全部類型</option>
-              {{#if categoryId}}
-              {{#each categories}}
-              <option value="{{this._id}}" {{#ifCond this._id ../categoryId}} selected {{/ifCond}}>{{this.name}}
-              </option>
-              {{/each}}
-              {{else}}
-              {{#each categories}}
-              <option value="{{this._id}}">{{this.name}}
-              </option>
-              {{/each}}
-              {{/if}}
-            </select>
-          </form>
-        </div>
+      <div class="mt-2">
+        <form action="/search">
+          <div class="row g-2">
+            <div class="col-3">
+              <select class="form-select" name="month" aria-label="Default select example"
+                onchange="this.form.submit()">
+                <option value="">月份</option>
+                {{#if month}}
+                <option value="1" {{#ifCond "1" month }} selected {{/ifCond}}>一月</option>
+                <option value="2" {{#ifCond "2" month }} selected {{/ifCond}}>二月</option>
+                <option value="3" {{#ifCond "3" month }} selected {{/ifCond}}>三月</option>
+                <option value="4" {{#ifCond "4" month }} selected {{/ifCond}}>四月</option>
+                <option value="5" {{#ifCond "5" month }} selected {{/ifCond}}>五月</option>
+                <option value="6" {{#ifCond "6" month }} selected {{/ifCond}}>六月</option>
+                <option value="7" {{#ifCond "7" month }} selected {{/ifCond}}>七月</option>
+                <option value="8" {{#ifCond "8" month }} selected {{/ifCond}}>八月</option>
+                <option value="9" {{#ifCond "9" month }} selected {{/ifCond}}>九月</option>
+                <option value="10" {{#ifCond "10" month }} selected {{/ifCond}}>十月</option>
+                <option value="11" {{#ifCond "11" month }} selected {{/ifCond}}>十一月</option>
+                <option value="12" {{#ifCond "12" month }} selected {{/ifCond}}>十二月</option>
+                {{else}}
+                <option value="1">一月</option>
+                <option value="2">二月</option>
+                <option value="3">三月</option>
+                <option value="4">四月</option>
+                <option value="5">五月</option>
+                <option value="6">六月</option>
+                <option value="7">七月</option>
+                <option value="8">八月</option>
+                <option value="9">九月</option>
+                <option value="10">十月</option>
+                <option value="11">十一月</option>
+                <option value="12">十二月</option>
+                {{/if}}
+              </select>
+            </div>
+            <div class="col-4">
+              <!-- 支出類型 -->
+              <select class="form-select" name="categoryId" aria-label="Default select example"
+                onchange="this.form.submit()">
+                <option value="">全部類別</option>
+                {{#if categoryId}}
+                {{#each categories}}
+                <option value="{{this._id}}" {{#ifCond this._id ../categoryId}} selected {{/ifCond}}>{{this.name}}
+                </option>
+                {{/each}}
+                {{else}}
+                {{#each categories}}
+                <option value="{{this._id}}">{{this.name}}
+                </option>
+                {{/each}}
+                {{/if}}
+              </select>
+            </div>
+          </div>
+        </form>
       </div>
       {{!-- --}}
       <ul class="list-group mt-3">
