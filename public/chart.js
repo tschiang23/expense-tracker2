@@ -17,42 +17,43 @@ window.addEventListener('load', (e) => {
     }
     )
 
-    const categories = categoryData.filter((item, index) => categoryData.indexOf(item) === index)
+    // 檢查重複的元素
+    // const categories = categoryData.filter((item, index) => categoryData.indexOf(item) === index)
 
-    // categoryData.filter((item, index) => {
-    //   console.log(categoryData.indexOf(item), index)
-    //   if (categoryData.indexOf(item) !== index) {
-    //     const startIndex = categoryData.indexOf(item)
+    // 檢查陣列重複值並 計算金額v1 
+    // let point = 0
+    // while (point < categoryData.length) {
+    //   while (categoryData.indexOf(categoryData[point]) !== point) {
+    //     const startIndex = categoryData.indexOf(categoryData[point])
     //     let amount
-    //     amount = amountData[categoryData.indexOf(item)] + amountData[index]
+    //     amount = amountData[categoryData.indexOf(categoryData[point])] + amountData[point]
     //     amountData.splice(startIndex, 1, amount)
-    //     amountData.splice(index, 1)
-    //     categoryData.splice(index, 1)
-
-    //     index = index - 1
-    //     console.log(categoryData.indexOf(item), index)
+    //     amountData.splice(point, 1)
+    //     categoryData.splice(point, 1)
+    //     point--
     //   }
-    // })
+    //   point++
+    // }
 
-    let point = 0
-    while (point < categoryData.length) {
-      while (categoryData.indexOf(categoryData[point]) !== point) {
-        const startIndex = categoryData.indexOf(categoryData[point])
+    // 檢查陣列重複值並 計算金額v2 for
+    for (let i = categoryData.length - 1; i >= 0; i--) {
+      if (categoryData.indexOf(categoryData[i]) !== i) {
+        console.log(categoryData)
+        console.log(categoryData.indexOf(categoryData[i]), i)
+        const startIndex = categoryData.indexOf(categoryData[i])
         let amount
-        amount = amountData[categoryData.indexOf(categoryData[point])] + amountData[point]
+        amount = amountData[categoryData.indexOf(categoryData[i])] + amountData[i]
         amountData.splice(startIndex, 1, amount)
-        amountData.splice(point, 1)
-        categoryData.splice(point, 1)
-        point--
+        amountData.splice(i, 1)
+        categoryData.splice(i, 1)
       }
-      point++
     }
 
 
     new Chart(ctx, {
       type: 'pie',
       data: {
-        labels: categories,
+        labels: categoryData,
         datasets: [{
           label: '$',
           data: amountData,
