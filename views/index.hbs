@@ -1,7 +1,10 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-5">
-      <div>
+      <div class="container" style="max-width: 350px;">
+        <canvas id="myChart"></canvas>
+      </div>
+      <div class="mt-2">
         <h3 class="d-inline">支出總金額: $</h3>
         <h1 class="d-inline text-danger">{{totalAmount}}</h1>
       </div>
@@ -74,13 +77,13 @@
             <div class="col-8">
               <div class="row align-items-center g-0">
                 <div class="col-2">
-                  <i class="{{this.categoryInfo.icon}}"></i>
+                  <i class="category-icon {{this.categoryInfo.icon}}" data-name="{{this.categoryInfo.name}}"></i>
                 </div>
                 <div class="col-5">
                   <div>{{this.name}}</div>
                   <div>{{#dateFormat this.date}}{{/dateFormat}}</div>
                 </div>
-                <div class="col-5 text-end">{{this.amount}}</div>
+                <div class="record-amount col-5 text-end">{{this.amount}}</div>
               </div>
             </div>
             <div class="col-4 text-end">
@@ -96,3 +99,6 @@
     </div>
   </div>
 </div>
+
+
+<script src="/chart.js"></script>

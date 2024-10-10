@@ -3,7 +3,10 @@ const router = express.Router()
 const Record = require('../../models/record')
 const Category = require('../../models/category')
 
-// let totalAmount = 0
+
+let recordsData
+let categoriesData
+
 router.get('/', async (req, res) => {
   try {
     const userId = req.user._id
@@ -42,6 +45,10 @@ router.get('/', async (req, res) => {
     ])
 
     const totalAmount = recordsTotal.length ? recordsTotal[0].total : 0
+
+    res.locals.records = records.map(record => record.amount)
+    res.locals.categories = categories
+
     res.render('index', { records, totalAmount, categories })
   } catch (error) {
     console.error('Error:', error)
