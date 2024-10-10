@@ -19,22 +19,34 @@ window.addEventListener('load', (e) => {
 
     const categories = categoryData.filter((item, index) => categoryData.indexOf(item) === index)
 
-    categoryData.filter((item, index) => {
-      if (categoryData.indexOf(item) !== index) {
-        const startIndex = categoryData.indexOf(item)
-        let amount
+    // categoryData.filter((item, index) => {
+    //   console.log(categoryData.indexOf(item), index)
+    //   if (categoryData.indexOf(item) !== index) {
+    //     const startIndex = categoryData.indexOf(item)
+    //     let amount
+    //     amount = amountData[categoryData.indexOf(item)] + amountData[index]
+    //     amountData.splice(startIndex, 1, amount)
+    //     amountData.splice(index, 1)
+    //     categoryData.splice(index, 1)
 
-        if (amountData[index]) {
-          amount = amountData[categoryData.indexOf(item)] + amountData[index]
-          amountData.splice(startIndex, 1, amount)
-          amountData.splice(index, 1)
-        } else {
-          amount = amountData[categoryData.indexOf(item)] + amountData[index - 1]
-          amountData.splice(startIndex, 1, amount)
-          amountData.splice((index - 1), 1)
-        }
+    //     index = index - 1
+    //     console.log(categoryData.indexOf(item), index)
+    //   }
+    // })
+
+    let point = 0
+    while (point < categoryData.length) {
+      while (categoryData.indexOf(categoryData[point]) !== point) {
+        const startIndex = categoryData.indexOf(categoryData[point])
+        let amount
+        amount = amountData[categoryData.indexOf(categoryData[point])] + amountData[point]
+        amountData.splice(startIndex, 1, amount)
+        amountData.splice(point, 1)
+        categoryData.splice(point, 1)
+        point--
       }
-    })
+      point++
+    }
 
 
     new Chart(ctx, {
