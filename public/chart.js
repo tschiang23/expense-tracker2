@@ -38,8 +38,6 @@ window.addEventListener('load', (e) => {
     // 檢查陣列重複值並 計算金額v2 for
     for (let i = categoryData.length - 1; i >= 0; i--) {
       if (categoryData.indexOf(categoryData[i]) !== i) {
-        console.log(categoryData)
-        console.log(categoryData.indexOf(categoryData[i]), i)
         const startIndex = categoryData.indexOf(categoryData[i])
         let amount
         amount = amountData[categoryData.indexOf(categoryData[i])] + amountData[i]
